@@ -26,3 +26,4 @@ include_directories(inc/)
 include_directories(../string_lib/inc)
 
 add_library(sys STATIC ${SOURCES} ${HEADERS})
+target_compile_definitions(sys PRIVATE ${KLESS_DEFINES})
