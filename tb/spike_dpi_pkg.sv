@@ -5,12 +5,14 @@ package spike_dpi_pkg;
   // ------------------------------------------------------------------------
   // DPI-C imports
   // ------------------------------------------------------------------------
-  import "DPI-C" context function void    spike_setup              (input longint argc,
-                                                                    input string  argv);
-  import "DPI-C" context function void    start_execution          ();
-  import "DPI-C" context function void    do_step                  (input longint unsigned n);
-  import "DPI-C" context function int     exit_code                ();
-  import "DPI-C" context function longint unsigned spike_get_pc    ();
+  import "DPI-C" context function void    spike_setup                   (input longint argc,
+                                                                         input string  argv);
+  import "DPI-C" context function void    start_execution               ();
+  import "DPI-C" context function void    do_step                       (input longint unsigned n);
+  import "DPI-C" context function int     exit_code                     ();
+  import "DPI-C" context function longint unsigned spike_get_pc         (input int unsigned hart);
+  import "DPI-C" context function longint unsigned spike_dump_registers (input int unsigned hart);
+  import "DPI-C" context function longint unsigned spike_dump_csrs      (input int unsigned hart);
 
   import "DPI-C" context function int     get_memory_data          (output longint data,
                                                                     input  longint addr);
