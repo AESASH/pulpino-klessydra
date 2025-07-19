@@ -7,6 +7,8 @@
 reset_handler:
 
   li t4, 0x94
+  li t5, INSTRRAM_ORG
+  add t4, t4, t5
   csrrw x0, mtvec, t4
   mv  x1, x0
   mv  x2, x1

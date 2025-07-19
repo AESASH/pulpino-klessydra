@@ -44,6 +44,14 @@ SECTIONS
         _endtext = .;
     }  > instrram
 
+    /* one word watched by Spike */
+    . = ALIGN(0x1000);
+    .tohost (NOLOAD) :  { KEEP(*(.tohost)) }   > instrram
+
+    /* 0x8000_1040 (standard HTIF offset)  */
+    . = ALIGN(0x40);
+    .fromhost (NOLOAD) : { KEEP(*(.fromhost)) } > instrram
+
     /*--------------------------------------------------------------------*/
     /* Global constructor/destructor segement                             */
     /*--------------------------------------------------------------------*/

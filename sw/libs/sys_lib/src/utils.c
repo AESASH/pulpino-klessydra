@@ -16,9 +16,14 @@
 #include <uart.h>
 #include <gpio.h>
 
+
+volatile uint64_t tohost __attribute__((section(".tohost")));
+volatile uint64_t fromhost __attribute__((section(".fromhost")));
+
 // exit loop
 void exit (int i) {
   eoc(i);
+  tohost = ((uint64_t)i << 1) | 1;
   while (1);
 }
 

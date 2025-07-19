@@ -21,6 +21,8 @@ reset_handler:
 
   /* set 0 in mtvec (base for IVT) */
   li a4, 0x94
+  li t5, INSTRRAM_ORG
+  add t4, t4, t5
   csrrw x0, mtvec, a4
   /* set all registers to zero */
   mv  x1, x0
