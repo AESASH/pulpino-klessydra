@@ -8,6 +8,10 @@ if (! $?PULP_PATH ) then
   setenv PULP_PATH      `pwd`/../
 endif
 
+if (! $?SPIKE_LIB_DIR ) then
+  setenv SPIKE_LIB_DIR      `which spike`
+endif
+
 setenv MSIM_LIBS_PATH ${VSIM_PATH}/modelsim_libs
 
 setenv IPS_PATH       ${PULP_PATH}/ips

@@ -47,7 +47,10 @@ set cmd "vsim -quiet $TB \
   -gGLOBALRAM_ORG=$env(GLOBALRAM_ORG) \
   -gROM_SIZE=$env(ROM_SIZE) \
   -gROM_ORG=$env(ROM_ORG) \
-   +define+PERIPHERALS_D=$env(PERIPHERALS) \
+  +define+PERIPHERALS_D=$env(PERIPHERALS) \
+  -sv_lib tcl_files/libspike_main \
+  +SPIKE_ARGS=\"$env(TEST)\" \
+  +ELF_FILE=\"$env(TEST)\" \
   -t ps \
   -voptargs=\"+acc -suppress 2103\" \
   work.glbl \
@@ -103,7 +106,10 @@ set cmd "vsim -quiet $TB \
   -gGLOBALRAM_ORG=$env(GLOBALRAM_ORG) \
   -gROM_SIZE=$env(ROM_SIZE) \
   -gROM_ORG=$env(ROM_ORG) \
-   +define+PERIPHERALS_D=$env(PERIPHERALS) \
+  +define+PERIPHERALS_D=$env(PERIPHERALS) \
+  -sv_lib tcl_files/libspike_main \
+  +SPIKE_ARGS=\"$env(TEST)\" \
+  +ELF_FILE=\"$env(TEST)\" \
    -t ps \
   -voptargs=\"+acc -suppress 2103\" \
   $VSIM_FLAGS"

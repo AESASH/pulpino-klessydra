@@ -155,6 +155,7 @@ macro(add_sim_targets NAME)
   STACK_ORG=${STACK_ORG} \
   STACK_END=${STACK_END} \
   PERIPHERALS=${PERIPHERALS} \
+  TEST=${NAME}.elf \
   TB_TEST=\"$<TARGET_PROPERTY:${NAME}.elf,TB_TEST>\"")
 
 
