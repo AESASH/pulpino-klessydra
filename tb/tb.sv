@@ -10,6 +10,7 @@
 
 `include "config.sv"
 `include "tb_jtag_pkg.sv"
+`include "spike_dpi_pkg.sv"
 
 `define REF_CLK_PERIOD   (2*15.25us)  // 32.786 kHz --> FLL reset value --> 50 MHz
 //`define CLK_PERIOD       40.00ns      // 25 MHz
@@ -123,6 +124,9 @@ module tb;
   jtag_i jtag_if();
 
   adv_dbg_if_t adv_dbg_if = new(jtag_if);
+
+  string elf_file;
+  string spike_argv;
 
   // use 8N1
   uart_bus
@@ -291,6 +295,19 @@ module tb;
 
   logic use_qspi;
 
+
+  initial begin
+    if (!$value$plusargs("ELF_FILE=%s", elf_file)) begin
+      $fatal(1, "Please provide +ELF=<%s>", elf_file);
+    end
+    $display("Running \"%s\"", elf_file);
+    /* Spike argv: “spike --isa=RV32IMA <elf>”   */
+    spike_argv = {"--isa=RV32IMA ", elf_file};
+    spike_dpi_pkg::spike_setup(2, spike_argv); // argc=2: spike + elf
+  end
+
+  logic [31:0] dut_pc_sig;  // hook this to RTL signal
+
   initial
   begin
     int i;
@@ -335,6 +352,21 @@ module tb;
       spi_load(use_qspi);
       spi_check(use_qspi);
     end
+
+   // @(negedge s_rst_n);
+   // @(posedge s_clk);   // one extra cycle of grace
+   // forever begin
+   //   @(posedge s_clk);
+   //   /* advance reference ISS by one retired instruction */
+   //   spike_dpi_pkg::do_step(1);
+   //   //static longint unsigned ref_pc = spike_dpi_pkg::spike_get_pc();
+   //   /* compare */
+   //   //if (dut_pc_sig !== ref_pc[31:0]) begin
+   //   //  $fatal(1,
+   //   //    "PC mismatch @%0t : DUT = 0x%08h, Spike = 0x%08h",
+   //   //    $time, dut_pc_sig, ref_pc[31:0]);
+   //   //end
+   // end
 
     #200ns;
     fetch_enable = 1'b1;
