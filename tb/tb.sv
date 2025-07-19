@@ -302,7 +302,7 @@ module tb;
     end
     $display("Running \"%s\"", elf_file);
     /* Spike argv: “spike --isa=RV32IMA <elf>”   */
-    spike_argv = {"--isa=RV32IMA ", elf_file};
+    spike_argv = {"spike --isa=RV32IMA ", elf_file};
     spike_dpi_pkg::spike_setup(2, spike_argv); // argc=2: spike + elf
   end
 
